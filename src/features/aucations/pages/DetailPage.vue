@@ -22,7 +22,7 @@
 
     <!-- Empty or Not Found State -->
     <div v-else-if="!aucation" class="p-12 text-center bg-white rounded-3xl border border-slate-200 shadow-xs" data-testid="detail-not-found">
-      <h3 class="text-lg font-bold text-slate-800">Lelang Tidak Ditemukan</h3>
+      <h1 class="text-lg font-bold text-slate-800">Lelang Tidak Ditemukan</h1>
       <p class="text-sm text-slate-500 mt-1">Barang lelang yang Anda tuju mungkin telah dihapus atau tidak tersedia.</p>
       <RouterLink to="/" class="mt-4 inline-block px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold">
         Kembali ke Beranda
@@ -37,12 +37,12 @@
           <div class="flex items-center gap-2.5 mb-2">
             <span
               class="px-2.5 py-1 rounded-full text-xs font-black uppercase tracking-wider shadow-2xs"
-              :class="isClosed ? 'bg-slate-900 text-white' : 'bg-emerald-500 text-white'"
+              :class="isClosed ? 'bg-slate-900 text-white' : 'bg-emerald-700 text-white'"
               data-testid="status-badge"
             >
               {{ isClosed ? 'Lelang Ditutup' : 'Sedang Berlangsung' }}
             </span>
-            <span class="text-xs text-slate-400 font-medium">ID: {{ aucation.id }}</span>
+            <span class="text-xs text-slate-600 font-medium">ID: {{ aucation.id }}</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             {{ aucation.title }}
@@ -131,15 +131,15 @@
             <!-- Meta attributes -->
             <div class="pt-6 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div>
-                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Harga Awal</span>
+                <span class="text-[11px] font-bold text-slate-600 uppercase tracking-wider">Harga Awal</span>
                 <p class="text-sm font-bold text-slate-800 mt-0.5">{{ formatRupiah(aucation.start_bid) }}</p>
               </div>
               <div>
-                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Penutupan</span>
+                <span class="text-[11px] font-bold text-slate-600 uppercase tracking-wider">Penutupan</span>
                 <p class="text-sm font-bold text-slate-800 mt-0.5">{{ formatDate(aucation.closed_at) }}</p>
               </div>
               <div>
-                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Dibuat Pada</span>
+                <span class="text-[11px] font-bold text-slate-600 uppercase tracking-wider">Dibuat Pada</span>
                 <p class="text-sm font-bold text-slate-800 mt-0.5">{{ formatDate(aucation.created_at) }}</p>
               </div>
             </div>
@@ -150,7 +150,7 @@
         <div class="space-y-6">
           <!-- Bid Summary Box -->
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-4">
-            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tawaran Tertinggi Saat Ini</span>
+            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Tawaran Tertinggi Saat Ini</span>
             <div class="flex items-baseline gap-2">
               <span class="text-2xl sm:text-3xl font-black text-indigo-600 tracking-tight" data-testid="detail-highest-bid">
                 {{ formatRupiah(highestBidAmount) }}
@@ -163,7 +163,7 @@
                 v-if="!isClosed"
                 type="button"
                 @click="isBidModalOpen = true"
-                class="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm transition shadow-md shadow-emerald-200 flex items-center justify-center gap-2"
+                class="w-full py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-sm transition shadow-md shadow-emerald-200 flex items-center justify-center gap-2"
                 data-testid="place-bid-button"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -176,7 +176,7 @@
                 v-if="hasMyBid && !isClosed"
                 type="button"
                 @click="handleCancelBid"
-                class="w-full mt-2 py-2 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs transition"
+                class="w-full mt-2 py-2 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition"
                 data-testid="cancel-bid-button"
               >
                 Tarik Penawaran Terakhir Saya
@@ -197,7 +197,7 @@
             </div>
 
             <!-- Empty history -->
-            <div v-if="bidHistory.length === 0" class="py-6 text-center text-slate-400 text-xs">
+            <div v-if="bidHistory.length === 0" class="py-6 text-center text-slate-600 text-xs">
               Belum ada penawaran untuk lelang ini. Jadilah yang pertama menawar!
             </div>
 
@@ -216,12 +216,12 @@
                     </span>
                     <span
                       v-if="idx === 0"
-                      class="px-1.5 py-0.5 bg-emerald-600 text-white rounded-md text-[10px] font-bold"
+                      class="px-1.5 py-0.5 bg-emerald-700 text-white rounded-md text-[10px] font-bold"
                     >
                       Tertinggi
                     </span>
                   </div>
-                  <p class="text-[11px] text-slate-400">{{ formatDate(bidItem.created_at) }}</p>
+                  <p class="text-[11px] text-slate-600">{{ formatDate(bidItem.created_at) }}</p>
                 </div>
                 <div class="text-right">
                   <span class="font-black text-slate-900" :class="{ 'text-emerald-700': idx === 0 }">

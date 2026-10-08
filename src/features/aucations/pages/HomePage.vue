@@ -12,7 +12,7 @@
           v-if="activeTab === 'mine' && filteredAucations.length > 0"
           type="button"
           @click="handleDeleteAllMine"
-          class="px-4 py-2.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs font-bold transition flex items-center gap-1.5"
+          class="px-4 py-2.5 rounded-xl bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-bold transition flex items-center gap-1.5"
           data-testid="delete-all-mine-button"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,7 +92,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
         </svg>
       </div>
-      <h3 class="text-base font-bold text-slate-800">Tidak ada lelang yang ditemukan</h3>
+      <h2 class="text-base font-bold text-slate-800">Tidak ada lelang yang ditemukan</h2>
       <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
         Belum ada barang lelang pada kategori ini atau kata kunci yang Anda cari belum cocok.
       </p>
@@ -113,7 +113,7 @@
             :alt="item.title"
             class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
           />
-          <div v-else class="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-50">
+          <div v-else class="w-full h-full flex flex-col items-center justify-center text-slate-600 bg-slate-50">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
@@ -124,7 +124,7 @@
           <div class="absolute top-3 left-3">
             <span
               class="px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider shadow-xs flex items-center gap-1.5"
-              :class="isClosed(item) ? 'bg-slate-900/80 text-white backdrop-blur-xs' : 'bg-emerald-500 text-white'"
+              :class="isClosed(item) ? 'bg-slate-900/80 text-white backdrop-blur-xs' : 'bg-emerald-700 text-white'"
             >
               <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping" v-if="!isClosed(item)"></span>
               {{ isClosed(item) ? 'Ditutup' : 'Berlangsung' }}
@@ -140,9 +140,9 @@
         <!-- Card Body -->
         <div class="p-5 flex-1 flex flex-col justify-between">
           <div>
-            <h3 class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition line-clamp-1">
+            <h2 class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition line-clamp-1">
               {{ item.title }}
-            </h3>
+            </h2>
             <p class="text-xs text-slate-500 mt-1 line-clamp-2">
               {{ item.description?.replace(/[#*`_~]/g, '') }}
             </p>
@@ -150,13 +150,13 @@
             <!-- Pricing Details -->
             <div class="mt-4 p-3 bg-slate-50 rounded-xl grid grid-cols-2 gap-2 border border-slate-100">
               <div>
-                <span class="text-[10px] uppercase font-bold text-slate-400">Harga Awal</span>
+                <span class="text-[10px] uppercase font-bold text-slate-600">Harga Awal</span>
                 <p class="text-xs font-bold text-slate-700 truncate">
                   {{ formatRupiah(item.start_bid) }}
                 </p>
               </div>
               <div>
-                <span class="text-[10px] uppercase font-bold text-indigo-500">Tawaran Tertinggi</span>
+                <span class="text-[10px] uppercase font-bold text-indigo-700">Tawaran Tertinggi</span>
                 <p class="text-xs font-black text-indigo-600 truncate">
                   {{ formatRupiah(getHighestBid(item)) }}
                 </p>
@@ -178,7 +178,7 @@
               v-if="!isOwner(item) && !isClosed(item)"
               type="button"
               @click="openBidModal(item)"
-              class="py-2 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs"
+              class="py-2 px-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition shadow-xs"
               data-testid="quick-bid-button"
             >
               Tawar
@@ -191,6 +191,7 @@
                 @click="openChangeModal(item)"
                 class="p-2 rounded-xl text-amber-600 hover:bg-amber-50 transition"
                 title="Ubah Lelang"
+                aria-label="Ubah Lelang"
                 data-testid="edit-aucation-button"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -202,6 +203,7 @@
                 @click="openChangeCoverModal(item)"
                 class="p-2 rounded-xl text-purple-600 hover:bg-purple-50 transition"
                 title="Ganti Cover"
+                aria-label="Ganti Cover"
                 data-testid="cover-aucation-button"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -211,8 +213,9 @@
               <button
                 type="button"
                 @click="handleDeleteAucation(item.id)"
-                class="p-2 rounded-xl text-rose-600 hover:bg-rose-50 transition"
+                class="p-2 rounded-xl text-rose-700 hover:bg-rose-50 transition"
                 title="Hapus Lelang"
+                aria-label="Hapus Lelang"
                 data-testid="delete-aucation-button"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

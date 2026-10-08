@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <main class="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md text-center mb-6">
       <div class="inline-flex items-center justify-center p-3 bg-indigo-600 rounded-2xl shadow-lg shadow-indigo-200 mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -10,7 +10,7 @@
           <path d="m21 11-8-8" />
         </svg>
       </div>
-      <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Delcom Auction</h2>
+      <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Delcom Auction</h1>
       <p class="mt-2 text-sm text-slate-600 font-medium">
         Platform Lelang Online Terpercaya, Transparan & Aman
       </p>
@@ -25,7 +25,7 @@
           </svg>
         </div>
         <div>
-          <h4 class="font-bold text-sm leading-snug">Dapatkan Penawaran Terbaik</h4>
+          <p class="font-bold text-sm leading-snug">Dapatkan Penawaran Terbaik</p>
           <p class="text-xs text-indigo-100">Ikuti lelang barang berkualitas dengan sistem penawaran real-time.</p>
         </div>
       </div>
@@ -37,7 +37,7 @@
         <RouterView />
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup>

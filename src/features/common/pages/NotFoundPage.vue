@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+  <main class="min-h-screen bg-slate-50 flex items-center justify-center p-4">
     <div class="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-xl text-center space-y-6">
       <div class="w-20 h-20 mx-auto bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shadow-xs">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -28,7 +28,7 @@
         </RouterLink>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-6">
-      <h3 class="text-xl font-bold text-slate-800">Masuk</h3>
+      <h2 class="text-xl font-bold text-slate-800">Masuk</h2>
       <p class="text-sm text-slate-500 mt-1">Masukkan email dan kata sandi akun Anda</p>
     </div>
 

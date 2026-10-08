@@ -14,7 +14,7 @@
             </svg>
           </div>
           <div>
-            <h3 class="text-lg font-bold text-slate-900">Ajukan Tawaran</h3>
+            <h2 class="text-lg font-bold text-slate-900">Ajukan Tawaran</h2>
             <p class="text-xs text-slate-500">Pasang harga penawaran terbaik Anda</p>
           </div>
         </div>
@@ -22,6 +22,7 @@
           type="button"
           @click="handleClose"
           class="p-2 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 transition"
+          aria-label="Tutup"
           data-testid="close-bid-modal"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,7 +99,7 @@
           <button
             type="submit"
             :disabled="aucationsStore.isBidAdd"
-            class="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition shadow-md shadow-emerald-200 disabled:opacity-50 flex items-center gap-2"
+            class="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-800 transition shadow-md shadow-emerald-200 disabled:opacity-50 flex items-center gap-2"
           >
             <span v-if="aucationsStore.isBidAdd" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
             <span>{{ aucationsStore.isBidAdd ? 'Mengirim...' : 'Kirim Tawaran' }}</span>

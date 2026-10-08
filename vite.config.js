@@ -9,6 +9,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [vue(), tailwindcss()],
+    build: {
+      sourcemap: true,
+    },
     server: {
       port,
     },

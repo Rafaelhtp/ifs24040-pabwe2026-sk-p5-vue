@@ -14,7 +14,7 @@
             </svg>
           </div>
           <div>
-            <h3 class="text-lg font-bold text-slate-900">Ganti Foto Sampul Lelang</h3>
+            <h2 class="text-lg font-bold text-slate-900">Ganti Foto Sampul Lelang</h2>
             <p class="text-xs text-slate-500">Unggah foto berkualitas agar menarik minat penawar</p>
           </div>
         </div>
@@ -22,6 +22,7 @@
           type="button"
           @click="handleClose"
           class="p-2 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 transition"
+          aria-label="Tutup"
           data-testid="close-cover-modal"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

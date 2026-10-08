@@ -29,6 +29,7 @@
           type="button"
           @click="$emit('close')"
           class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+          aria-label="Tutup menu"
           data-testid="close-sidebar-button"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
