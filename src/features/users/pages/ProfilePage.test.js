@@ -1,11 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { renderWithProviders } from '../../../test-utils.js'
+import { renderWithProviders, createMockPinia } from '../../../test-utils.js'
 import ProfilePage from './ProfilePage.vue'
 import { useUsersStore } from '../states/usersStore.js'
 
 describe('ProfilePage', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
+    createMockPinia()
+    const store = useUsersStore()
+    vi.spyOn(store, 'asyncGetMe').mockResolvedValue({ success: true })
   })
 
   it('should render profile information and fallback initial', async () => {

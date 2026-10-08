@@ -45,6 +45,9 @@ describe('MarkdownViewer', () => {
 
     await wrapper.setProps({ content: 'Content 2' })
     expect(mockSetMarkdown).toHaveBeenCalledWith('Content 2')
+
+    await wrapper.setProps({ content: '' })
+    expect(mockSetMarkdown).toHaveBeenCalledWith('')
   })
 
   it('should destroy viewer instance on unmount', () => {

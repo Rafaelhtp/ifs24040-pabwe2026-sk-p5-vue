@@ -86,8 +86,7 @@ const userEmail = computed(() => currentUser.value?.email || '')
 const userPhoto = computed(() => currentUser.value?.photo || currentUser.value?.avatar || '')
 
 const userInitial = computed(() => {
-  const name = userName.value
-  return name ? name.trim().charAt(0).toUpperCase() : 'U'
+  return userName.value.trim().charAt(0).toUpperCase()
 })
 
 const handleLogout = async () => {

@@ -7,11 +7,12 @@
 
     <form @submit.prevent="handleSubmit" class="space-y-4">
       <div>
-        <label for="email" class="block text-sm font-medium text-slate-700 mb-1">
+        <label for="login-email-input" class="block text-sm font-medium text-slate-700 mb-1">
           Alamat Email
         </label>
         <input
-          id="email"
+          id="login-email-input"
+          name="email"
           type="email"
           :value="email"
           @input="onEmailChange"
@@ -23,11 +24,12 @@
       </div>
 
       <div>
-        <label for="password" class="block text-sm font-medium text-slate-700 mb-1">
+        <label for="login-password-input" class="block text-sm font-medium text-slate-700 mb-1">
           Kata Sandi
         </label>
         <input
-          id="password"
+          id="login-password-input"
+          name="password"
           type="password"
           :value="password"
           @input="onPasswordChange"
@@ -39,6 +41,7 @@
       </div>
 
       <button
+        id="login-submit-button"
         type="submit"
         :disabled="authStore.isAuthLogin"
         class="w-full mt-2 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"

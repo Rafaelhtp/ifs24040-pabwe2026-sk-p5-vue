@@ -13,10 +13,11 @@ describe('RegisterPage', () => {
 
   it('should render all register form inputs', () => {
     const wrapper = renderWithProviders(RegisterPage)
-    expect(wrapper.find('input#name').exists()).toBe(true)
-    expect(wrapper.find('input#email').exists()).toBe(true)
-    expect(wrapper.find('input#password').exists()).toBe(true)
-    expect(wrapper.find('input#confirmPassword').exists()).toBe(true)
+    expect(wrapper.find('input#register-name-input').exists()).toBe(true)
+    expect(wrapper.find('input#register-email-input').exists()).toBe(true)
+    expect(wrapper.find('input#register-password-input').exists()).toBe(true)
+    expect(wrapper.find('input#register-confirm-password-input').exists()).toBe(true)
+    expect(wrapper.find('button#register-submit-button').exists()).toBe(true)
   })
 
   it('should validate empty fields on submit', async () => {
@@ -33,10 +34,10 @@ describe('RegisterPage', () => {
   it('should validate invalid name, email, password length, and password mismatch', async () => {
     const wrapper = renderWithProviders(RegisterPage)
 
-    await wrapper.find('input#name').setValue('A')
-    await wrapper.find('input#email').setValue('not-an-email')
-    await wrapper.find('input#password').setValue('123')
-    await wrapper.find('input#confirmPassword').setValue('1234')
+    await wrapper.find('input#register-name-input').setValue('A')
+    await wrapper.find('input#register-email-input').setValue('not-an-email')
+    await wrapper.find('input#register-password-input').setValue('123')
+    await wrapper.find('input#register-confirm-password-input').setValue('1234')
 
     await wrapper.find('form').trigger('submit.prevent')
 
@@ -63,10 +64,10 @@ describe('RegisterPage', () => {
     const authStore = useAuthStore()
     vi.spyOn(authStore, 'asyncRegister').mockResolvedValue({ success: true })
 
-    await wrapper.find('input#name').setValue('John Doe')
-    await wrapper.find('input#email').setValue('john@example.com')
-    await wrapper.find('input#password').setValue('password123')
-    await wrapper.find('input#confirmPassword').setValue('password123')
+    await wrapper.find('input#register-name-input').setValue('John Doe')
+    await wrapper.find('input#register-email-input').setValue('john@example.com')
+    await wrapper.find('input#register-password-input').setValue('password123')
+    await wrapper.find('input#register-confirm-password-input').setValue('password123')
 
     await wrapper.find('form').trigger('submit.prevent')
 
@@ -95,10 +96,10 @@ describe('RegisterPage', () => {
     const authStore = useAuthStore()
     vi.spyOn(authStore, 'asyncRegister').mockResolvedValue({ success: false })
 
-    await wrapper.find('input#name').setValue('John Doe')
-    await wrapper.find('input#email').setValue('john@example.com')
-    await wrapper.find('input#password').setValue('password123')
-    await wrapper.find('input#confirmPassword').setValue('password123')
+    await wrapper.find('input#register-name-input').setValue('John Doe')
+    await wrapper.find('input#register-email-input').setValue('john@example.com')
+    await wrapper.find('input#register-password-input').setValue('password123')
+    await wrapper.find('input#register-confirm-password-input').setValue('password123')
 
     await wrapper.find('form').trigger('submit.prevent')
 

@@ -13,9 +13,10 @@ describe('LoginPage', () => {
 
   it('should render form fields correctly', () => {
     const wrapper = renderWithProviders(LoginPage)
-    expect(wrapper.find('input#email').exists()).toBe(true)
-    expect(wrapper.find('input#password').exists()).toBe(true)
-    expect(wrapper.find('button[type="submit"]').text()).toContain('Masuk')
+    expect(wrapper.find('input#login-email-input').exists()).toBe(true)
+    expect(wrapper.find('input#login-password-input').exists()).toBe(true)
+    expect(wrapper.find('button#login-submit-button').exists()).toBe(true)
+    expect(wrapper.find('button#login-submit-button').text()).toContain('Masuk')
   })
 
   it('should show validation error when fields are empty', async () => {
@@ -33,10 +34,10 @@ describe('LoginPage', () => {
   it('should show validation error for invalid email and short password', async () => {
     const wrapper = renderWithProviders(LoginPage)
 
-    const emailInput = wrapper.find('input#email')
+    const emailInput = wrapper.find('input#login-email-input')
     await emailInput.setValue('invalid-email')
 
-    const passwordInput = wrapper.find('input#password')
+    const passwordInput = wrapper.find('input#login-password-input')
     await passwordInput.setValue('123')
 
     await wrapper.find('form').trigger('submit.prevent')
@@ -63,8 +64,8 @@ describe('LoginPage', () => {
     const authStore = useAuthStore()
     vi.spyOn(authStore, 'asyncLogin').mockResolvedValue({ success: true })
 
-    await wrapper.find('input#email').setValue('user@example.com')
-    await wrapper.find('input#password').setValue('password123')
+    await wrapper.find('input#login-email-input').setValue('user@example.com')
+    await wrapper.find('input#login-password-input').setValue('password123')
     await wrapper.find('form').trigger('submit.prevent')
 
     expect(authStore.asyncLogin).toHaveBeenCalledWith({
@@ -91,8 +92,8 @@ describe('LoginPage', () => {
     const authStore = useAuthStore()
     vi.spyOn(authStore, 'asyncLogin').mockResolvedValue({ success: false })
 
-    await wrapper.find('input#email').setValue('user@example.com')
-    await wrapper.find('input#password').setValue('password123')
+    await wrapper.find('input#login-email-input').setValue('user@example.com')
+    await wrapper.find('input#login-password-input').setValue('password123')
     await wrapper.find('form').trigger('submit.prevent')
 
     expect(authStore.asyncLogin).toHaveBeenCalled()

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { renderWithProviders, createTestRouter } from '../../../test-utils.js'
+import { renderWithProviders, createTestRouter, createMockPinia } from '../../../test-utils.js'
 import DetailPage from './DetailPage.vue'
 import { useAucationsStore } from '../states/aucationsStore.js'
 import { useAuthStore } from '../../auth/states/authStore.js'
@@ -8,7 +8,10 @@ import * as toolsHelper from '../../../helpers/toolsHelper.js'
 describe('DetailPage', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
+    createMockPinia()
     vi.spyOn(toolsHelper, 'showConfirmDialog').mockResolvedValue({ isConfirmed: false })
+    const store = useAucationsStore()
+    vi.spyOn(store, 'asyncGetAucationById').mockResolvedValue({ success: true })
   })
 
   it('should render loading state when isAucation is true and no aucation', async () => {
@@ -168,10 +171,12 @@ describe('DetailPage', () => {
       title: 'No Closed At Item',
       start_bid: 1000,
       user_id: 'u-creator',
+      is_closed: 1,
       closed_at: null,
       bids: null,
     }
     await wrapper.vm.$nextTick()
     expect(wrapper.text()).toContain('No Closed At Item')
+    expect(wrapper.text()).toContain('Lelang Ditutup')
   })
 })
