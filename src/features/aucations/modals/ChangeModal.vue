@@ -107,9 +107,9 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, defineAsyncComponent } from 'vue'
 import { useAucationsStore } from '../states/aucationsStore.js'
-import MarkdownEditor from '../components/MarkdownEditor.vue'
+const MarkdownEditor = defineAsyncComponent(() => import('../components/MarkdownEditor.vue'))
 import { showErrorDialog } from '../../../helpers/toolsHelper.js'
 
 const props = defineProps({

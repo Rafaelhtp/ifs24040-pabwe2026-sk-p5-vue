@@ -261,14 +261,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { useAucationsStore } from '../states/aucationsStore.js'
 import { useAuthStore } from '../../auth/states/authStore.js'
 import { useUsersStore } from '../../users/states/usersStore.js'
 import { formatRupiah, formatDate, showConfirmDialog } from '../../../helpers/toolsHelper.js'
 
-import MarkdownViewer from '../components/MarkdownViewer.vue'
+const MarkdownViewer = defineAsyncComponent(() => import('../components/MarkdownViewer.vue'))
 import ChangeModal from '../modals/ChangeModal.vue'
 import ChangeCoverModal from '../modals/ChangeCoverModal.vue'
 import BidModal from '../modals/BidModal.vue'

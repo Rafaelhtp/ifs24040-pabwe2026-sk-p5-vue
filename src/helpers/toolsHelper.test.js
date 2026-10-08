@@ -28,8 +28,8 @@ describe('toolsHelper', () => {
   })
 
   describe('SweetAlert dialogs', () => {
-    it('should call Swal.fire for success with default title', () => {
-      showSuccessDialog('Operasi berhasil')
+    it('should call Swal.fire for success with default title', async () => {
+      await showSuccessDialog('Operasi berhasil')
       expect(Swal.fire).toHaveBeenCalledWith(
         expect.objectContaining({
           icon: 'success',
@@ -39,8 +39,8 @@ describe('toolsHelper', () => {
       )
     })
 
-    it('should call Swal.fire for success with custom title', () => {
-      showSuccessDialog('Operasi berhasil', 'Kustom Sukses')
+    it('should call Swal.fire for success with custom title', async () => {
+      await showSuccessDialog('Operasi berhasil', 'Kustom Sukses')
       expect(Swal.fire).toHaveBeenCalledWith(
         expect.objectContaining({
           title: 'Kustom Sukses',
@@ -48,8 +48,8 @@ describe('toolsHelper', () => {
       )
     })
 
-    it('should call Swal.fire for error with default message and custom title', () => {
-      showErrorDialog()
+    it('should call Swal.fire for error with default message and custom title', async () => {
+      await showErrorDialog()
       expect(Swal.fire).toHaveBeenCalledWith(
         expect.objectContaining({
           icon: 'error',
@@ -58,7 +58,7 @@ describe('toolsHelper', () => {
         })
       )
 
-      showErrorDialog('Ada kendala', 'Kustom Error')
+      await showErrorDialog('Ada kendala', 'Kustom Error')
       expect(Swal.fire).toHaveBeenCalledWith(
         expect.objectContaining({
           title: 'Kustom Error',
@@ -67,8 +67,8 @@ describe('toolsHelper', () => {
       )
     })
 
-    it('should call Swal.fire for confirm with defaults and custom options', () => {
-      showConfirmDialog('Apakah ingin menghapus?')
+    it('should call Swal.fire for confirm with defaults and custom options', async () => {
+      await showConfirmDialog('Apakah ingin menghapus?')
       expect(Swal.fire).toHaveBeenCalledWith(
         expect.objectContaining({
           icon: 'warning',
@@ -80,7 +80,7 @@ describe('toolsHelper', () => {
         })
       )
 
-      showConfirmDialog('Hapus?', 'Konfirmasi', 'Ya, Hapus')
+      await showConfirmDialog('Hapus?', 'Konfirmasi', 'Ya, Hapus')
       expect(Swal.fire).toHaveBeenCalledWith(
         expect.objectContaining({
           title: 'Konfirmasi',

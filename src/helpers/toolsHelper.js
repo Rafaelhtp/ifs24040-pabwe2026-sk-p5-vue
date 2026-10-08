@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -6,7 +5,8 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
 
-export function showSuccessDialog(message, title = 'Berhasil!') {
+export async function showSuccessDialog(message, title = 'Berhasil!') {
+  const { default: Swal } = await import('sweetalert2')
   return Swal.fire({
     icon: 'success',
     title,
@@ -15,7 +15,8 @@ export function showSuccessDialog(message, title = 'Berhasil!') {
   })
 }
 
-export function showErrorDialog(message, title = 'Gagal!') {
+export async function showErrorDialog(message, title = 'Gagal!') {
+  const { default: Swal } = await import('sweetalert2')
   return Swal.fire({
     icon: 'error',
     title,
@@ -24,7 +25,8 @@ export function showErrorDialog(message, title = 'Gagal!') {
   })
 }
 
-export function showConfirmDialog(message, title = 'Apakah Anda yakin?', confirmText = 'Ya, lanjutkan!') {
+export async function showConfirmDialog(message, title = 'Apakah Anda yakin?', confirmText = 'Ya, lanjutkan!') {
+  const { default: Swal } = await import('sweetalert2')
   return Swal.fire({
     icon: 'warning',
     title,

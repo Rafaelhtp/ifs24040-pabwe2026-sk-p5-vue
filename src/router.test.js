@@ -56,4 +56,10 @@ describe('router', () => {
     await router.push('/non-existent-page-xyz')
     expect(router.currentRoute.value.name).toBe('not-found')
   })
+
+  it('should lazy-load every route component', async () => {
+    const all = routes.flatMap((r) => [r, ...(r.children || [])])
+    const modules = await Promise.all(all.map((r) => r.component()))
+    modules.forEach((m) => expect(m.default).toBeDefined())
+  })
 })

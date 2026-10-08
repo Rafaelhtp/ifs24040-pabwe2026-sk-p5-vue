@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { flushPromises } from '@vue/test-utils'
 import { renderWithProviders } from '../../../test-utils.js'
 import AddModal from './AddModal.vue'
 import { useAucationsStore } from '../states/aucationsStore.js'
@@ -52,6 +53,8 @@ describe('AddModal', () => {
     await wrapper.find('input#add-closed-at').setValue('2026-12-31T23:59')
 
     // Find MarkdownEditor component and emit update:modelValue
+    await vi.waitFor(() => expect(wrapper.findComponent({ name: 'MarkdownEditor' }).exists()).toBe(true))
+    await flushPromises()
     const editor = wrapper.findComponent({ name: 'MarkdownEditor' })
     if (editor.exists()) {
       editor.vm.$emit('update:modelValue', 'Kamera antik dalam kondisi mulus.')
