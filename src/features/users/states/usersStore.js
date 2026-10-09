@@ -26,38 +26,43 @@ export const useUsersStore = defineStore('users', {
 
     async asyncGetUsers() {
       this.isUsersLoading = true
+      let result
       try {
         const data = await userApi.getUsers()
         const usersList = (data && data.users) ? data.users : (Array.isArray(data) ? data : [])
         this.users = usersList
-        return { success: true, data: usersList }
+        result = { success: true, data: usersList }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isUsersLoading = false
       }
+      return result
     },
 
     async asyncGetMe() {
       this.isProfileLoading = true
+      let result
       try {
         const data = await userApi.getMe()
         const userObj = (data && data.user) ? data.user : data
         this.profile = userObj
         const authStore = useAuthStore()
         authStore.setUser(userObj)
-        return { success: true, data: userObj }
+        result = { success: true, data: userObj }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isProfileLoading = false
       }
+      return result
     },
 
     async asyncUpdateMe(payload) {
       this.isProfileUpdating = true
+      let result
       try {
         const data = await userApi.updateMe(payload)
         const updated = (data && data.user) ? data.user : { ...this.profile, ...payload }
@@ -65,17 +70,19 @@ export const useUsersStore = defineStore('users', {
         const authStore = useAuthStore()
         authStore.setUser(updated)
         showSuccessDialog('Profil berhasil diperbarui!', 'Berhasil')
-        return { success: true, data: updated }
+        result = { success: true, data: updated }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isProfileUpdating = false
       }
+      return result
     },
 
     async asyncUpdatePhoto(photoFile) {
       this.isPhotoUpdating = true
+      let result
       try {
         const data = await userApi.updatePhoto(photoFile)
         const updated = (data && data.user) ? data.user : (data || this.profile)
@@ -83,27 +90,30 @@ export const useUsersStore = defineStore('users', {
         const authStore = useAuthStore()
         authStore.setUser(updated)
         showSuccessDialog('Foto profil berhasil diperbarui!', 'Berhasil')
-        return { success: true, data: updated }
+        result = { success: true, data: updated }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isPhotoUpdating = false
       }
+      return result
     },
 
     async asyncUpdatePassword(payload) {
       this.isPasswordUpdating = true
+      let result
       try {
         const data = await userApi.updatePassword(payload)
         showSuccessDialog('Kata sandi berhasil diperbarui!', 'Berhasil')
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isPasswordUpdating = false
       }
+      return result
     },
   },
 })

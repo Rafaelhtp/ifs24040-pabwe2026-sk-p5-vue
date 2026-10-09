@@ -41,53 +41,60 @@ export const useAucationsStore = defineStore('aucations', {
 
     async asyncGetAucations(params = {}) {
       this.isAucation = true
+      let result
       try {
         const data = await aucationApi.getAucations(params)
         const list = (data && data.aucations) ? data.aucations : (Array.isArray(data) ? data : [])
         this.aucations = list
-        return { success: true, data: list }
+        result = { success: true, data: list }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isAucation = false
       }
+      return result
     },
 
     async asyncGetAucationById(id) {
       this.isAucation = true
+      let result
       try {
         const data = await aucationApi.getAucationById(id)
         const detail = (data && data.aucation) ? data.aucation : data
         this.aucation = detail
-        return { success: true, data: detail }
+        result = { success: true, data: detail }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isAucation = false
       }
+      return result
     },
 
     async asyncCreateAucation(payload) {
       this.isAucationAdd = true
       this.isAucationAdded = false
+      let result
       try {
         const data = await aucationApi.createAucation(payload)
         this.isAucationAdded = true
         showSuccessDialog('Lelang berhasil dibuat!', 'Berhasil')
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isAucationAdd = false
       }
+      return result
     },
 
     async asyncUpdateAucation(id, payload) {
       this.isAucationChange = true
       this.isAucationChanged = false
+      let result
       try {
         const data = await aucationApi.updateAucation(id, payload)
         this.isAucationChanged = true
@@ -96,18 +103,20 @@ export const useAucationsStore = defineStore('aucations', {
           this.aucation = { ...this.aucation, ...updated }
         }
         showSuccessDialog('Lelang berhasil diperbarui!', 'Berhasil')
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isAucationChange = false
       }
+      return result
     },
 
     async asyncUpdateAucationCover(id, coverFile) {
       this.isAucationChangeCover = true
       this.isAucationChangedCover = false
+      let result
       try {
         const data = await aucationApi.updateAucationCover(id, coverFile)
         this.isAucationChangedCover = true
@@ -116,18 +125,20 @@ export const useAucationsStore = defineStore('aucations', {
           this.aucation.cover = coverUrl
         }
         showSuccessDialog('Foto cover berhasil diperbarui!', 'Berhasil')
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isAucationChangeCover = false
       }
+      return result
     },
 
     async asyncDeleteAucation(id) {
       this.isAucationDelete = true
       this.isAucationDeleted = false
+      let result
       try {
         const data = await aucationApi.deleteAucation(id)
         this.isAucationDeleted = true
@@ -136,64 +147,71 @@ export const useAucationsStore = defineStore('aucations', {
           this.aucation = null
         }
         showSuccessDialog('Lelang berhasil dihapus!', 'Berhasil')
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isAucationDelete = false
       }
+      return result
     },
 
     async asyncCreateBid(id, payload) {
       this.isBidAdd = true
       this.isBidAdded = false
+      let result
       try {
         const data = await aucationApi.createBid(id, payload)
         this.isBidAdded = true
         showSuccessDialog('Penawaran berhasil diajukan!', 'Berhasil')
         await this.asyncGetAucationById(id)
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isBidAdd = false
       }
+      return result
     },
 
     async asyncDeleteBid(id) {
       this.isBidDelete = true
       this.isBidDeleted = false
+      let result
       try {
         const data = await aucationApi.deleteBid(id)
         this.isBidDeleted = true
         showSuccessDialog('Penawaran berhasil ditarik!', 'Berhasil')
         await this.asyncGetAucationById(id)
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isBidDelete = false
       }
+      return result
     },
 
     async deleteAllMyAucations() {
       this.isAucationDeleteAll = true
       this.isAucationDeletedAll = false
+      let result
       try {
         const data = await aucationApi.deleteAllMyAucations()
         this.isAucationDeletedAll = true
         this.aucations = []
         showSuccessDialog('Semua lelang Anda berhasil dihapus!', 'Berhasil')
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isAucationDeleteAll = false
       }
+      return result
     },
   },
 })

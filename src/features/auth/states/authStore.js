@@ -24,6 +24,7 @@ export const useAuthStore = defineStore('auth', {
 
     async asyncLogin({ email, password }) {
       this.isAuthLogin = true
+      let result
       try {
         const data = await authApi.login({ email, password })
         const token = data?.token || (typeof data === 'string' ? data : '')
@@ -32,38 +33,43 @@ export const useAuthStore = defineStore('auth', {
         if (data?.user) {
           this.user = data.user
         }
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isAuthLogin = false
       }
+      return result
     },
 
     async asyncRegister({ name, email, password }) {
       this.isAuthRegister = true
+      let result
       try {
         const data = await authApi.register({ name, email, password })
-        return { success: true, data }
+        result = { success: true, data }
       } catch (error) {
         showErrorDialog(error.message)
-        return { success: false, message: error.message }
+        result = { success: false, message: error.message }
       } finally {
         this.isAuthRegister = false
       }
+      return result
     },
 
     async asyncLogout() {
       this.isAuthLogout = true
+      let result
       try {
         this.token = ''
         this.user = null
         putAccessToken('')
-        return { success: true }
+        result = { success: true }
       } finally {
         this.isAuthLogout = false
       }
+      return result
     },
   },
 })
