@@ -29,7 +29,8 @@ export const useUsersStore = defineStore('users', {
       let result
       try {
         const data = await userApi.getUsers()
-        const usersList = (data && data.users) ? data.users : (Array.isArray(data) ? data : [])
+        const fallbackUsers = Array.isArray(data) ? data : []
+        const usersList = data?.users || fallbackUsers
         this.users = usersList
         result = { success: true, data: usersList }
       } catch (error) {
@@ -46,7 +47,7 @@ export const useUsersStore = defineStore('users', {
       let result
       try {
         const data = await userApi.getMe()
-        const userObj = (data && data.user) ? data.user : data
+        const userObj = data?.user || data
         this.profile = userObj
         const authStore = useAuthStore()
         authStore.setUser(userObj)
@@ -65,7 +66,7 @@ export const useUsersStore = defineStore('users', {
       let result
       try {
         const data = await userApi.updateMe(payload)
-        const updated = (data && data.user) ? data.user : { ...this.profile, ...payload }
+        const updated = data?.user || { ...this.profile, ...payload }
         this.profile = updated
         const authStore = useAuthStore()
         authStore.setUser(updated)
@@ -85,7 +86,7 @@ export const useUsersStore = defineStore('users', {
       let result
       try {
         const data = await userApi.updatePhoto(photoFile)
-        const updated = (data && data.user) ? data.user : (data || this.profile)
+        const updated = data?.user || data || this.profile
         this.profile = updated
         const authStore = useAuthStore()
         authStore.setUser(updated)

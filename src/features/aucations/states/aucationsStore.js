@@ -44,7 +44,8 @@ export const useAucationsStore = defineStore('aucations', {
       let result
       try {
         const data = await aucationApi.getAucations(params)
-        const list = (data && data.aucations) ? data.aucations : (Array.isArray(data) ? data : [])
+        const fallbackList = Array.isArray(data) ? data : []
+        const list = data?.aucations || fallbackList
         this.aucations = list
         result = { success: true, data: list }
       } catch (error) {
@@ -61,7 +62,7 @@ export const useAucationsStore = defineStore('aucations', {
       let result
       try {
         const data = await aucationApi.getAucationById(id)
-        const detail = (data && data.aucation) ? data.aucation : data
+        const detail = data?.aucation || data
         this.aucation = detail
         result = { success: true, data: detail }
       } catch (error) {
@@ -98,7 +99,7 @@ export const useAucationsStore = defineStore('aucations', {
       try {
         const data = await aucationApi.updateAucation(id, payload)
         this.isAucationChanged = true
-        const updated = (data && data.aucation) ? data.aucation : (data || payload)
+        const updated = data?.aucation || data || payload
         if (this.aucation && this.aucation.id === id) {
           this.aucation = { ...this.aucation, ...updated }
         }
@@ -120,7 +121,7 @@ export const useAucationsStore = defineStore('aucations', {
       try {
         const data = await aucationApi.updateAucationCover(id, coverFile)
         this.isAucationChangedCover = true
-        const coverUrl = (data && data.aucation && data.aucation.cover) ? data.aucation.cover : (data && data.cover ? data.cover : null)
+        const coverUrl = data?.aucation?.cover || data?.cover || null
         if (this.aucation && this.aucation.id === id && coverUrl) {
           this.aucation.cover = coverUrl
         }

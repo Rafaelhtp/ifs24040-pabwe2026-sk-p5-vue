@@ -164,7 +164,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { useUsersStore } from '../states/usersStore.js'
-import { showErrorDialog } from '../../../helpers/toolsHelper.js'
 
 const usersStore = useUsersStore()
 

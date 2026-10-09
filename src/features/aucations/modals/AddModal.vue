@@ -78,9 +78,9 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+          <span class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
             Deskripsi Lelang (Markdown) *
-          </label>
+          </span>
           <MarkdownEditor v-model="description" height="240px" />
           <p v-if="descriptionError" class="text-xs text-rose-500 mt-1">{{ descriptionError }}</p>
         </div>

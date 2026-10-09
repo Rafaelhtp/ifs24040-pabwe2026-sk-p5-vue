@@ -17,10 +17,10 @@ export function putAccessToken(token) {
 }
 
 export async function fetchWithAuth(url, options = {}) {
-  const baseUrl = typeof DELCOM_BASEURL !== 'undefined' ? DELCOM_BASEURL : 'https://open-api.delcom.org/api/v1'
-  let fullUrl = url.startsWith('http://') || url.startsWith('https://') 
-    ? url 
-    : `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`
+  const baseUrl = typeof DELCOM_BASEURL === 'undefined' ? 'https://open-api.delcom.org/api/v1' : DELCOM_BASEURL
+  const isAbsoluteUrl = url.startsWith('http://') || url.startsWith('https://')
+  const separator = url.startsWith('/') ? '' : '/'
+  let fullUrl = isAbsoluteUrl ? url : `${baseUrl}${separator}${url}`
 
   if (options.params && typeof options.params === 'object') {
     const urlObj = new URL(fullUrl)
@@ -32,7 +32,7 @@ export async function fetchWithAuth(url, options = {}) {
     fullUrl = urlObj.toString()
   }
 
-  const headers = { ...(options.headers || {}) }
+  const headers = { ...options.headers }
   const token = getAccessToken()
   if (token && !headers.Authorization && !headers.authorization) {
     headers.Authorization = `Bearer ${token}`
