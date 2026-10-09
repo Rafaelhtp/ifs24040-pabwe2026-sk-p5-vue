@@ -48,3 +48,10 @@ if (typeof window !== 'undefined') {
 if (typeof document !== 'undefined') {
   document.elementFromPoint = () => null
 }
+
+// Tests must never hit the real network. Without this, components that call
+// the API on mount (e.g. ProfilePage, DetailPage) leave a pending request when
+// the store mock is not applied, so code after `await` may not run before the
+// test ends and coverage becomes dependent on network speed (flaky in CI).
+// Tests that need a specific response override `global.fetch` themselves.
+globalThis.fetch = () => Promise.reject(new Error('Network access is disabled in tests'))
