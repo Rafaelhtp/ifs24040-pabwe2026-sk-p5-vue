@@ -1,41 +1,57 @@
-import type { RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
+import { getAccessToken } from './helpers/apiHelper.js'
 
-// Halaman auth di-import statis agar halaman login (yang diaudit Lighthouse) tidak
-// menunggu rantai request: main -> chunk layout -> chunk login.
-import AuthLayout from "./features/auth/layouts/AuthLayout.vue";
-import LoginPage from "./features/auth/pages/LoginPage.vue";
-import RegisterPage from "./features/auth/pages/RegisterPage.vue";
+// Halaman auth di-import statis (bukan lazy) supaya halaman login tidak
+// menunggu rantai request: main.js -> chunk layout -> chunk login.
+import AuthLayout from './features/auth/layouts/AuthLayout.vue'
+import LoginPage from './features/auth/pages/LoginPage.vue'
+import RegisterPage from './features/auth/pages/RegisterPage.vue'
 
-// Halaman setelah login tetap di-lazy-load supaya ukuran bundle awal tetap kecil
-const CashFlowLayout = () => import("./features/cashflows/layouts/CashFlowLayout.vue");
-const HomePage = () => import("./features/cashflows/pages/HomePage.vue");
-const DetailPage = () => import("./features/cashflows/pages/DetailPage.vue");
-const NotFoundPage = () => import("./features/common/pages/NotFoundPage.vue");
-const ProfilePage = () => import("./features/users/pages/ProfilePage.vue");
-const UsersPage = () => import("./features/users/pages/UsersPage.vue");
-
-const routes: RouteRecordRaw[] = [
+export const routes = [
   {
-    path: "/auth",
+    path: '/auth',
     component: AuthLayout,
+    meta: { guestOnly: true },
     children: [
-      { path: "", redirect: "/auth/login" },
-      { path: "login", component: LoginPage },
-      { path: "register", component: RegisterPage },
+      { path: 'login', name: 'login', component: LoginPage },
+      { path: 'register', name: 'register', component: RegisterPage },
     ],
   },
   {
-    path: "/",
-    component: CashFlowLayout,
+    path: '/',
+    component: () => import('./features/aucations/layouts/AucationLayout.vue'),
+    meta: { requiresAuth: true },
     children: [
-      { path: "", redirect: "/home" },
-      { path: "home", component: HomePage },
-      { path: "cash-flows/:cashFlowId", component: DetailPage },
-      { path: "users", component: UsersPage },
-      { path: "profile", component: ProfilePage },
+      { path: '', name: 'home', component: () => import('./features/aucations/pages/HomePage.vue') },
+      { path: 'aucations/:aucationId', name: 'aucation-detail', component: () => import('./features/aucations/pages/DetailPage.vue') },
+      { path: 'users', name: 'users', component: () => import('./features/users/pages/UsersPage.vue') },
+      { path: 'profile', name: 'profile', component: () => import('./features/users/pages/ProfilePage.vue') },
     ],
   },
-  { path: "/:pathMatch(.*)*", component: NotFoundPage },
-];
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('./features/common/pages/NotFoundPage.vue'),
+  },
+]
 
-export default routes;
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
+router.beforeEach((to, from, next) => {
+  const token = getAccessToken()
+  const requiresAuth = to.matched.some((record) => record.meta?.requiresAuth)
+  const isGuestOnly = to.matched.some((record) => record.meta?.guestOnly)
+
+  if (requiresAuth && !token) {
+    next({ path: '/auth/login' })
+  } else if (isGuestOnly && token) {
+    next({ path: '/' })
+  } else {
+    next()
+  }
+})
+
+export default router
