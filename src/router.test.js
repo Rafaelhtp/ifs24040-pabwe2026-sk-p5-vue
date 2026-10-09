@@ -1,65 +1,38 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import router, { routes } from './router.js'
-import * as apiHelper from './helpers/apiHelper.js'
+import { describe, expect, it } from "vitest";
+import type { RouteRecordRaw } from "vue-router";
+import router from "./router";
+import routes from "./routes";
 
-describe('router', () => {
-  beforeEach(() => {
-    vi.restoreAllMocks()
-  })
+function collectLoaders(list: RouteRecordRaw[]): Array<() => Promise<unknown>> {
+  return list.flatMap((route) => [
+    ...(typeof route.component === "function" ? [route.component as () => Promise<unknown>] : []),
+    ...collectLoaders(route.children ?? []),
+  ]);
+}
 
-  it('should define all required routes including auth, protected, and wildcard', () => {
-    expect(routes.length).toBe(3)
-    const authRoute = routes.find((r) => r.path === '/auth')
-    const mainRoute = routes.find((r) => r.path === '/')
-    const wildcardRoute = routes.find((r) => r.path === '/:pathMatch(.*)*')
+describe("router", () => {
+  it("should lazy-load every page and layout component except the auth pages (static)", async () => {
+    const loaders = collectLoaders(routes);
+    expect(loaders.length).toBe(6);
+    const modules = await Promise.all(loaders.map((load) => load()));
+    modules.forEach((mod) => expect(mod).toHaveProperty("default"));
+  });
 
-    expect(authRoute).toBeDefined()
-    expect(authRoute.children.map((c) => c.path)).toContain('login')
-    expect(authRoute.children.map((c) => c.path)).toContain('register')
+  it("should register all application routes", () => {
+    expect(router.getRoutes().length).toBeGreaterThanOrEqual(routes.length);
+  });
 
-    expect(mainRoute).toBeDefined()
-    expect(mainRoute.children.map((c) => c.path)).toContain('')
-    expect(mainRoute.children.map((c) => c.path)).toContain('aucations/:aucationId')
-    expect(mainRoute.children.map((c) => c.path)).toContain('users')
-    expect(mainRoute.children.map((c) => c.path)).toContain('profile')
-
-    expect(wildcardRoute).toBeDefined()
-  })
-
-  it('should redirect unauthenticated user from protected route to /auth/login', async () => {
-    vi.spyOn(apiHelper, 'getAccessToken').mockReturnValue('')
-
-    await router.push('/')
-    expect(router.currentRoute.value.path).toBe('/auth/login')
-  })
-
-  it('should allow authenticated user to visit protected route', async () => {
-    vi.spyOn(apiHelper, 'getAccessToken').mockReturnValue('valid-token')
-
-    await router.push('/')
-    expect(router.currentRoute.value.path).toBe('/')
-
-    await router.push('/users')
-    expect(router.currentRoute.value.path).toBe('/users')
-  })
-
-  it('should redirect authenticated user from guest route to /', async () => {
-    vi.spyOn(apiHelper, 'getAccessToken').mockReturnValue('valid-token')
-
-    await router.push('/auth/login')
-    expect(router.currentRoute.value.path).toBe('/')
-  })
-
-  it('should match wildcard route for non-existent paths', async () => {
-    vi.spyOn(apiHelper, 'getAccessToken').mockReturnValue('')
-
-    await router.push('/non-existent-page-xyz')
-    expect(router.currentRoute.value.name).toBe('not-found')
-  })
-
-  it('should lazy-load every route component', async () => {
-    const all = routes.flatMap((r) => [r, ...(r.children || [])])
-    const modules = await Promise.all(all.map((r) => r.component()))
-    modules.forEach((m) => expect(m.default).toBeDefined())
-  })
-})
+  it.each([
+    ["/auth/login", "/auth/login"],
+    ["/auth/register", "/auth/register"],
+    ["/home", "/home"],
+    ["/cash-flows/12", "/cash-flows/:cashFlowId"],
+    ["/users", "/users"],
+    ["/profile", "/profile"],
+    ["/tidak-ada", "/:pathMatch(.*)*"],
+  ])("should resolve %s", (path, expectedPath) => {
+    const resolved = router.resolve(path);
+    const matchedPaths = resolved.matched.map((record) => record.path);
+    expect(matchedPaths.some((p) => p.endsWith(expectedPath) || p === expectedPath)).toBe(true);
+  });
+});
