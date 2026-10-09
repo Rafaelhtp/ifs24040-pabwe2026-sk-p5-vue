@@ -5,6 +5,23 @@ import { useAucationsStore } from '../states/aucationsStore.js'
 import { useAuthStore } from '../../auth/states/authStore.js'
 import * as toolsHelper from '../../../helpers/toolsHelper.js'
 
+// MarkdownViewer is lazy-loaded (defineAsyncComponent). Stub it here so the real
+// module (and toast-ui) is only loaded by MarkdownViewer.test.js; otherwise it
+// races with test teardown and makes coverage non-deterministic in CI.
+vi.mock('../components/MarkdownViewer.vue', async () => {
+  const { h } = await import('vue')
+  return {
+    __esModule: true,
+    default: {
+      name: 'MarkdownViewer',
+      props: { content: { type: String, default: '' } },
+      render() {
+        return h('div', { 'data-testid': 'toast-ui-viewer' }, this.content)
+      },
+    },
+  }
+})
+
 describe('DetailPage', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
